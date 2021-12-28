@@ -3,9 +3,11 @@ pragma solidity >=0.4.22 <0.9.0;
 pragma experimental ABIEncoderV2;
 
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "./SwapRequest.sol";
 import "./SwapRequestState.sol";
 import "./struct/SwapDetails.sol";
+import "./struct/TokenDetails.sol";
 
 contract MySwap {
     struct SwapsPerAddress {
@@ -70,10 +72,8 @@ contract MySwap {
             swapDetails[i] = SwapDetails(
                 isPending ? owner1 : owner2,
                 address(swapRequest), // _swapRequests[i] throws CompileError: Stack too deep
-                token1,
-                token2,
-                amount1,
-                amount2,
+                TokenDetails(token1, ERC20(token1).symbol(), amount1),
+                TokenDetails(token2, ERC20(token2).symbol(), amount2),
                 timeStarted,
                 timeEnded,
                 state
@@ -82,4 +82,6 @@ contract MySwap {
 
         return swapDetails;
     }
+
+    // function to get all history?
 }
